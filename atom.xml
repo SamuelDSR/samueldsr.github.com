@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>Samuel's Blog</title>
+ <link href="http://samueldsr.github.com/atom.xml" rel="self"/>
+ <link href="http://samueldsr.github.com"/>
+ <updated>2014-07-06T15:38:37+02:00</updated>
+ <id>http://samueldsr.github.com</id>
+ <author>
+   <name>龙石河</name>
+   <email>samuel.longshihe@gmail.com</email>
+ </author>
+
+ 
+ <entry>
+   <title>Windows下 gvim 开发环境配置</title>
+   <link href="http://samueldsr.github.com/blog/2014/04/27/windows-gvim-stepup"/>
+   <updated>2014-04-27T00:00:00+02:00</updated>
+   <id>http://samueldsr.github.com/blog/2014/04/27/windows-gvim-stepup</id>
+   <content type="html">&lt;p&gt;&lt;a href=&quot;http://www.vim.org&quot;&gt;vim&lt;/a&gt; 是一款在程序员之中非常流行的文本编辑器，和 &lt;a href=&quot;http://www.gnu.org/software/emacs/&quot;&gt;Emacs&lt;/a&gt; 并列为类Unix系统上用户最喜欢的编辑器。vim 虽然小巧，但是功能却异常强大，各式丰富的插件可以实现代码高亮、自动补全、编译以及错误跳转等功能，丝毫不逊于 Visual Studio、Eclipse 等集成开发环境。用好 vim 能大大提高你的编码效率。&lt;/p&gt;
+
+&lt;p&gt;vim 能工作在各种平台之上：windows 下有 gvim, Mac OS X下有 Macvim, 这里主要介绍 windows 下 gvim 等配置，从最基本的vim 开始，一步一步搭建一个包括 cscope, taglist, neocomplcache, snipmate 在内的功能强大的 vim 集成开发环境。&lt;/p&gt;
+
+&lt;h3 id=&quot;1gvim&quot;&gt;1.安装gvim&lt;/h3&gt;
+
+&lt;p&gt;可以到 vim 的&lt;a href=&quot;http://www.vim.org/download.php&quot;&gt;官方网站&lt;/a&gt;选择对应 windows 系统的 gvim 安装程序或者可以直接点击&lt;a href=&quot;ftp://ftp.vim.org/pub/vim/pc/gvim74.exe&quot;&gt;这里&lt;/a&gt;。对于64位系统，一个优化但没有经过严格测试的版本 (支持&amp;gt;4GB 大小的文件编辑) 可以在&lt;a href=&quot;http://vim-win3264.googlecode.com/files/vim73-x64.zip&quot;&gt;这里&lt;/a&gt;下载。&lt;/p&gt;
+
+&lt;p&gt;下载完后，直接点击exe文件安装，安装目录随便，安装完后 vim 所在的目录的结构是这样的：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;  &lt;code&gt;vim&lt;/code&gt;&lt;/li&gt;
+
+&lt;li&gt;    &lt;code&gt;vim73&lt;/code&gt;&lt;/li&gt;
+
+&lt;li&gt;    &lt;code&gt;vimfiles&lt;/code&gt;&lt;/li&gt;
+
+&lt;li&gt;    &lt;code&gt;_vimrc&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;其中，&lt;code&gt;vim73&lt;/code&gt; 存放 gvim 的主执行文件和一些必要的插件，&lt;code&gt;vimfiles&lt;/code&gt; 里面存放我们想要安装的各种插件(推荐插件安装到 &lt;code&gt;vimfiles&lt;/code&gt;, 这样方便与管理和卸载，下文中所有插件都是安装到此目录)，&lt;code&gt;_vimrc&lt;/code&gt; 就是 vim 的配置文件所在，一些 vim 的基本设置，如文本编码，主题，快捷键都可以写在这里。&lt;/p&gt;
+
+&lt;h3 id=&quot;2vim&quot;&gt;2.安装vim的中文帮助文档&lt;/h3&gt;
+
+&lt;p&gt;vim 自带的用户手册是英文的，如果想看中文帮助，可以到这里下载 &lt;a href=&quot;http://sourceforge.net/projects/vimcdoc/files/vimcdoc/1.8.0/&quot;&gt;vimcdoc-1.8.0.tar.gz&lt;/a&gt;, 之后将解压得到的 &lt;code&gt;doc&lt;/code&gt; 文件夹复制到 &lt;code&gt;vimfiles/doc&lt;/code&gt;, &lt;code&gt;vimcdoc.vim&lt;/code&gt; 复制到 &lt;code&gt;vimfiles/plugin&lt;/code&gt;, &lt;code&gt;help_cn.vim&lt;/code&gt; 复制到 &lt;code&gt;vimfiles/syntax&lt;/code&gt; (其余的文件不用管)。&lt;/p&gt;
+
+&lt;p&gt;当然，你可以选择直接下载编译好的 &lt;a href=&quot;http://sourceforge.net/projects/vimcdoc/files/win32-install/1.8.0/&quot;&gt;vimcdoc-1.8.0-setup.exe&lt;/a&gt; 然后一路点下去即可。&lt;/p&gt;
+
+&lt;p&gt;最后，还需要在 &lt;code&gt;_vimrc&lt;/code&gt; 里面讲帮助文档的语言设为中文，即添加下面一句话：&lt;/p&gt;
+&lt;div class=&#39;highlight&#39;&gt;&lt;pre&gt;&lt;code class=&#39;vim&#39;&gt;&lt;span class=&#39;k&#39;&gt;set&lt;/span&gt; &lt;span class=&#39;nb&#39;&gt;helplang&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;=&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;cn&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;3vundle&quot;&gt;3.安装Vundle来管理插件&lt;/h3&gt;
+
+&lt;p&gt;vim 中有很多插件管理工具，比如说 &lt;a href=&quot;http://www.vim.org/scripts/script.php?script_id=2332&quot;&gt;pathogen&lt;/a&gt;, 这里推荐用 &lt;a href=&quot;http://www.vim.org/scripts/script.php?script_id=3458&quot;&gt;Vundle&lt;/a&gt;, vundle跟git整合，可以方便地用git来安装，更新，卸载 vim 中的插件，你只需要知道插件的名字即可，在使用 vundle 之前，确保你的电脑上以及安装了 git (推荐直接安装 &lt;a href=&quot;https://windows.github.com/&quot;&gt;github for windows&lt;/a&gt;，安装好之后也顺便有了git )。&lt;/p&gt;
+
+&lt;p&gt;打开 git shell, &lt;code&gt;cd&lt;/code&gt; 到你的 &lt;code&gt;vimfiles&lt;/code&gt; 下，然后输入以下代码：&lt;/p&gt;
+&lt;div class=&#39;highlight&#39;&gt;&lt;pre&gt;&lt;code class=&#39;bash&#39;&gt;&lt;span class=&#39;nv&#39;&gt;$ &lt;/span&gt;git clone https://github.com/gmarik/vundle.git ./bundle/vundle
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这样就下载安装好了 vundle, vundle 管理的插件都安装在 &lt;code&gt;vimfiles/bundle&lt;/code&gt; 之下, 并且能通过 git 来对插件进行更新，vundle 支持下面三种源：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://vim-scripts.org/index.html&quot;&gt;vim-scripts&lt;/a&gt;，这种方式只需要知道插件的名字即可，例如插件 L9 只需要 Bundle ‘L9’ 即可&lt;/li&gt;
+
+&lt;li&gt;github 中的 vim scripts 源，这种方式需要知道 github 上的 repositories 的名字，如 Bundle ‘Lokaltog/vim-easymotion’&lt;/li&gt;
+
+&lt;li&gt;其他 git 源, 需要知道完整的 git 路径&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在用 vundle 安装管理插件之前，首先需要在 &lt;code&gt;_vimrc&lt;/code&gt; 里面配置好想要 vundle 管理的 vim 插件，我的配置如下:&lt;/p&gt;
+&lt;div class=&#39;highlight&#39;&gt;&lt;pre&gt;&lt;code class=&#39;vim&#39;&gt;&lt;span class=&#39;k&#39;&gt;set&lt;/span&gt; &lt;span class=&#39;nb&#39;&gt;nocompatible&lt;/span&gt; 
+&lt;span class=&#39;k&#39;&gt;filetype&lt;/span&gt; off &lt;span class=&#39;c&#39;&gt;&amp;quot;必须的&lt;/span&gt;
+&lt;span class=&#39;c&#39;&gt;&amp;quot;此处规定Vundle的路径&lt;/span&gt;
+&lt;span class=&#39;k&#39;&gt;set&lt;/span&gt; &lt;span class=&#39;nb&#39;&gt;rtp&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;+=&lt;/span&gt;$VIM&lt;span class=&#39;sr&#39;&gt;/vimfiles/&lt;/span&gt;bundle&lt;span class=&#39;sr&#39;&gt;/vundle/&lt;/span&gt;
+&lt;span class=&#39;c&#39;&gt;&amp;quot;此处规定插件的安装路径&lt;/span&gt;
+&lt;span class=&#39;k&#39;&gt;call&lt;/span&gt; vundle#rc&lt;span class=&#39;p&#39;&gt;(&lt;/span&gt;&lt;span class=&#39;s1&#39;&gt;&amp;#39;$VIM/vimfiles/bundle/&amp;#39;&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;)&lt;/span&gt;
+
+&lt;span class=&#39;c&#39;&gt;&amp;quot;让 Vundle 管理 Vundle &amp;quot;必须的&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;gmarik/vundle&amp;#39;&lt;/span&gt;
+
+&lt;span class=&#39;c&#39;&gt;&amp;quot;Syntax&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;asciidoc.vim&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;html5.vim&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;xml.vim&amp;#39;&lt;/span&gt;
+
+&lt;span class=&#39;c&#39;&gt;&amp;quot;color&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;flazz/vim-colorschemes&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;vibrantink&amp;#39;&lt;/span&gt;
+
+&lt;span class=&#39;c&#39;&gt;&amp;quot;Plugin&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;DoxygenToolkit.vim&amp;#39;&lt;/span&gt; 
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;L9&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;FuzzyFinder&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;snipMate&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;Tagbar&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;taglist.vim&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;The-NERD-Commenter&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;Tabular&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;Chiel92/vim-autoformat&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;The-NERD-tree&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;Lokaltog/vim-easymotion&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;minibufexpl.vim&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;neocomplcache&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;LargeFile&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;LaTeX-Suite-aka-Vim-LaTeX&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;Auto-Pairs&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;Lokaltog/vim-powerline&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;ShowMarks&amp;#39;&lt;/span&gt;
+Bundle &lt;span class=&#39;s1&#39;&gt;&amp;#39;gregsexton/VimCalc&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;然后打开 vim, 然后在命令模式下输入 &lt;code&gt;:BundleInstall&lt;/code&gt;, vundle 就会自动安装上面相应的插件，Vundle 的插件都安装在 &lt;code&gt;vimfiles\bundle&lt;/code&gt; 之下，并且能够很方便的通过 vundle 的命令进行管理：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;:BundleList&lt;/code&gt;: 列出所安装的所有插件列表&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;:BundleInstall&lt;/code&gt;: 安装插件 &lt;code&gt;_vimrc&lt;/code&gt; 里面配置的用 vundle 管理的所有插件&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;:BundleClean&lt;/code&gt;: 清除不必要的插件。在 vundle 里面，如果你想要卸载某插件，只需要在 &lt;code&gt;_vimrc&lt;/code&gt; 文件里面删除该插件，然后调用 &lt;code&gt;:BundleClean&lt;/code&gt; 即可卸载此插件&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;BundleSearch&lt;/code&gt;: 搜索相关插件，这是一个非常实用的命令，比如说你想安装 vim 里面的 Latex 插件，但是你不知道插件的详细名字，你可以通过 &lt;code&gt;:BundleSearch latex&lt;/code&gt; 列出所有包含 &lt;code&gt;latex&lt;/code&gt; 的插件，然后在左侧弹出的窗口里面定位到你想安装的插件，按 &lt;code&gt;i&lt;/code&gt; 即可快速安装 (提醒，安装完之后一定要在 &lt;code&gt;_vimrc&lt;/code&gt; 里面添加用 Bundle 管理该插件，不然你下次启动 vim 时该插件不会生效)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;你可以通过 &lt;code&gt;:help vundle&lt;/code&gt; 来获取更为详细的 vundle 帮助。&lt;/p&gt;
+
+&lt;h3 id=&quot;4__ctags__cscope&quot;&gt;4. 配置 ctags 和 cscope&lt;/h3&gt;
+
+&lt;p&gt;大多数集成开发环境 (IDE) 都支持跳转到某个函数或变量的定义，这在编写或阅读源代码时非常有用。vim 里面也能通过 ctags 和 cscope 来完美地实现这一功能。&lt;/p&gt;
+
+&lt;h4 id=&quot;ctags&quot;&gt;ctags&lt;/h4&gt;
+
+&lt;p&gt;ctags 能通过生成相应的标记文件来实现在源文件中快速定位对象，在使用 ctags 实现跳转之前，首先需要生成相应的 tags文件。ctags中支持的 tag 对象有：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;用#define定义的宏&lt;/li&gt;
+
+&lt;li&gt;枚举型变量的值&lt;/li&gt;
+
+&lt;li&gt;函数的定义、原型和声明&lt;/li&gt;
+
+&lt;li&gt;名字空间（namespace）&lt;/li&gt;
+
+&lt;li&gt;类型定义（typedefs）&lt;/li&gt;
+
+&lt;li&gt;变量（包括定义和声明）&lt;/li&gt;
+
+&lt;li&gt;类（class）、结构（struct）、枚举类型（enum）和联合（union）&lt;/li&gt;
+
+&lt;li&gt;类、结构和联合中成员变量或函数&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;首先需要下载安装ctags, 下载 &lt;a href=&quot;http://prdownloads.sourceforge.net/ctags/ctags58.zip&quot;&gt;ctags58.zip&lt;/a&gt;, 解压后将ctags.exe拷贝至&lt;code&gt;vim/vim73&lt;/code&gt; 下面，之后就可以下载 vim 中使用ctags了。&lt;/p&gt;
+
+&lt;p&gt;使用ctags建立tags文件的语句如下：&lt;/p&gt;
+&lt;div class=&#39;highlight&#39;&gt;&lt;pre&gt;&lt;code class=&#39;bash&#39;&gt;ctags -R –c++-kinds&lt;span class=&#39;o&#39;&gt;=&lt;/span&gt;+px –fields&lt;span class=&#39;o&#39;&gt;=&lt;/span&gt;+iaS –extra&lt;span class=&#39;o&#39;&gt;=&lt;/span&gt;+q . 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;每个参数的解释如下：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;-R: ctags循环生成子目录的tags&lt;/li&gt;
+
+&lt;li&gt;–c++-kinds=+px: ctags记录c++文件中的函数声明和各种外部和前向声明&lt;/li&gt;
+
+&lt;li&gt;–fields=+iaS: ctags 要求描述的信息，其中i表示如果有继承，则标识出父类；a 表示如果元素是类成员的话，要标明其调用权限(即是public还是private); S 表示如果是函数，则标识函数的signature。&lt;/li&gt;
+
+&lt;li&gt;–extra=+q: 强制要求ctags做如下操作—如果某个语法元素是类的一个成员，ctags默认会给其记录一行，可以要求ctags对同一个语法元素再记一行，这样可以保证在VIM中多个同名函数可以通过路径不同来区分。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;最方便的是在 vim 中建立ctags 的命令的快捷键，可以设定为 &lt;code&gt;&amp;lt;leader&amp;gt;bt&lt;/code&gt; (build tags)&lt;/p&gt;
+&lt;div class=&#39;highlight&#39;&gt;&lt;pre&gt;&lt;code class=&#39;vim&#39;&gt;nmap &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;silent&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;leader&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#39;nb&#39;&gt;bt&lt;/span&gt; :&lt;span class=&#39;p&#39;&gt;!&lt;/span&gt;ctags &lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;R &lt;span class=&#39;p&#39;&gt;--&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;c&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;++-&lt;/span&gt;kinds&lt;span class=&#39;p&#39;&gt;=+&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;p&lt;/span&gt; &lt;span class=&#39;p&#39;&gt;--&lt;/span&gt;fields&lt;span class=&#39;p&#39;&gt;=+&lt;/span&gt;iaS &lt;span class=&#39;p&#39;&gt;--&lt;/span&gt;extra&lt;span class=&#39;p&#39;&gt;=+&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;q&lt;/span&gt; .&lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;习惯按功能键的话可以绑定到 &lt;code&gt;&amp;lt;F12&amp;gt;&lt;/code&gt; 键&lt;/p&gt;
+&lt;div class=&#39;highlight&#39;&gt;&lt;pre&gt;&lt;code class=&#39;vim&#39;&gt;nmap &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;F12&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt; :&lt;span class=&#39;p&#39;&gt;!&lt;/span&gt;ctags &lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;R &lt;span class=&#39;p&#39;&gt;--&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;c&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;++-&lt;/span&gt;kinds&lt;span class=&#39;p&#39;&gt;=+&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;p&lt;/span&gt; &lt;span class=&#39;p&#39;&gt;--&lt;/span&gt;fields&lt;span class=&#39;p&#39;&gt;=+&lt;/span&gt;iaS &lt;span class=&#39;p&#39;&gt;--&lt;/span&gt;extra&lt;span class=&#39;p&#39;&gt;=+&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;q&lt;/span&gt; .&lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;建立好tags之后，在对应源代码你想跳转的地方按&lt;code&gt;Ctrl+]&lt;/code&gt;键即可。 许多其他插件，如显示源代码结构和函数列表 taglist, 自动补全插件 omincppcomplete, neocomplcache 等都依赖ctags生成的tags文件。 另外, tags 文件必须在 vim 运行的当前目录才能正确实现跳转，如果想添加其他路径的tags文件，可以这样:&lt;/p&gt;
+&lt;div class=&#39;highlight&#39;&gt;&lt;pre&gt;&lt;code class=&#39;vim&#39;&gt;&lt;span class=&#39;k&#39;&gt;set&lt;/span&gt; &lt;span class=&#39;k&#39;&gt;tags&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;+=&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;tags&lt;/span&gt;文件路径
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4 id=&quot;cscope&quot;&gt;cscope&lt;/h4&gt;
+
+&lt;p&gt;cscope 是另外一种用来生成tags文件的工具，cscope主要用来协助浏览C/C++语言，功能方面要强于ctags，不仅支持变量/函数的定义查询，还记录了函数的调用处查询等功能，所以在安装了ctags之后还可以继续安装cscope vim 默认是支持ctags生成的tags文件的，但是对于cscope而言，windows系统下的gvim可能支持不是太好， 这时你需要在vim中输入&lt;code&gt;:version&lt;/code&gt;来查看自己的vim是否支持cscope, 如果有&lt;code&gt;+cscope&lt;/code&gt;选项的话就没有问题，如果是&lt;code&gt;-cscope&lt;/code&gt;, 你需要重新安装一个支持cscope的版本或者从 vim 源代码重新编译，加上 &lt;code&gt;-enable-cscope&lt;/code&gt; 选项。 下载 windows版本的 &lt;a href=&quot;http://sourceforge.net/projects/mslk/files/Cscope/cscope-15.7/cscope-15.7.zip/download&quot;&gt;cscope.exe&lt;/a&gt;, 将得到的zip文件解压后全部放入&lt;code&gt;vim/vim73&lt;/code&gt;下面。这样就可以使用 cscope 来生成程序数据库文件了。 使用 cscope 之前需要利用 cscope 命令生成相应的程序数据库也就是 tags 文件，下面是一个方便生成数据库文件 vim 函数，将之添加到 &lt;code&gt;_vimrc&lt;/code&gt; 文件中。&lt;/p&gt;
+&lt;div class=&#39;highlight&#39;&gt;&lt;pre&gt;&lt;code class=&#39;vim&#39;&gt;&lt;span class=&#39;k&#39;&gt;function&lt;/span&gt; Do_CsTag&lt;span class=&#39;p&#39;&gt;()&lt;/span&gt;
+    &lt;span class=&#39;k&#39;&gt;if&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;(&lt;/span&gt;executable&lt;span class=&#39;p&#39;&gt;(&lt;/span&gt;&lt;span class=&#39;s2&#39;&gt;&amp;quot;cscope&amp;quot;&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;)&lt;/span&gt; &amp;amp;&amp;amp; has&lt;span class=&#39;p&#39;&gt;(&lt;/span&gt;&lt;span class=&#39;s2&#39;&gt;&amp;quot;cscope&amp;quot;&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;)&lt;/span&gt; &lt;span class=&#39;p&#39;&gt;)&lt;/span&gt;
+        &lt;span class=&#39;k&#39;&gt;if&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;(&lt;/span&gt;has&lt;span class=&#39;p&#39;&gt;(&lt;/span&gt;&lt;span class=&#39;s1&#39;&gt;&amp;#39;win32&amp;#39;&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;))&lt;/span&gt;
+            &lt;span class=&#39;k&#39;&gt;silent&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;!&lt;/span&gt; execute &lt;span class=&#39;s2&#39;&gt;&amp;quot;!dir /b *.c,*.cpp,*.h,*.java,*.cs &amp;gt;&amp;gt; cscope.files&amp;quot;&lt;/span&gt;
+        &lt;span class=&#39;k&#39;&gt;else&lt;/span&gt;
+            &lt;span class=&#39;k&#39;&gt;silent&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;!&lt;/span&gt; execute &lt;span class=&#39;s2&#39;&gt;&amp;quot;!find . -name &amp;quot;&lt;/span&gt;*.&lt;span class=&#39;k&#39;&gt;h&lt;/span&gt;&lt;span class=&#39;s2&#39;&gt;&amp;quot; -o -name &amp;quot;&lt;/span&gt;*.&lt;span class=&#39;k&#39;&gt;c&lt;/span&gt;&lt;span class=&#39;s2&#39;&gt;&amp;quot; -o -name &amp;quot;&lt;/span&gt;*.cpp&lt;span class=&#39;s2&#39;&gt;&amp;quot; -o -name &amp;quot;&lt;/span&gt;*.&lt;span class=&#39;k&#39;&gt;m&lt;/span&gt;&lt;span class=&#39;s2&#39;&gt;&amp;quot; -o -name &amp;quot;&lt;/span&gt;*.&lt;span class=&#39;nb&#39;&gt;mm&lt;/span&gt;&lt;span class=&#39;s2&#39;&gt;&amp;quot; -o -name &amp;quot;&lt;/span&gt;*.java&lt;span class=&#39;s2&#39;&gt;&amp;quot; -o -name &amp;quot;&lt;/span&gt;*.&lt;span class=&#39;k&#39;&gt;py&lt;/span&gt;&lt;span class=&#39;s2&#39;&gt;&amp;quot; &amp;gt; cscope.files&amp;quot;&lt;/span&gt;
+        &lt;span class=&#39;k&#39;&gt;endif&lt;/span&gt;
+        &lt;span class=&#39;k&#39;&gt;silent&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;!&lt;/span&gt; execute &lt;span class=&#39;s2&#39;&gt;&amp;quot;!cscope -b&amp;quot;&lt;/span&gt;
+        &lt;span class=&#39;k&#39;&gt;if&lt;/span&gt; filereadable&lt;span class=&#39;p&#39;&gt;(&lt;/span&gt;&lt;span class=&#39;s2&#39;&gt;&amp;quot;cscope.out&amp;quot;&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;)&lt;/span&gt;
+            execute &lt;span class=&#39;s2&#39;&gt;&amp;quot;cs add cscope.out&amp;quot;&lt;/span&gt;
+        &lt;span class=&#39;k&#39;&gt;endif&lt;/span&gt;
+    &lt;span class=&#39;k&#39;&gt;endif&lt;/span&gt;
+&lt;span class=&#39;k&#39;&gt;endf&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;调用这个函数就可以用 cscope 生成程序数据库，然后 vim 就可以利用它来进行跳转了。 函数的代码的详细解释见 &lt;a href=&quot;http://www.vimer.cn/2009/10/%E5%9C%A8vimgvim%E4%B8%AD%E4%BD%BF%E7%94%A8cscope.html&quot;&gt;http://www.vimer.cn/2009/10/%E5%9C%A8vimgvim%E4%B8%AD%E4%BD%BF%E7%94%A8cscope.html&lt;/a&gt;. 当然最方便的是在 vim 中映射这个函数，代码如下：&lt;/p&gt;
+&lt;div class=&#39;highlight&#39;&gt;&lt;pre&gt;&lt;code class=&#39;vim&#39;&gt;nmap &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;leader&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;bct :&lt;span class=&#39;k&#39;&gt;call&lt;/span&gt; Do_CsTag&lt;span class=&#39;p&#39;&gt;()&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;cscope的常用生成数据库选项可以用在 vim 中命令模式下输入 &lt;code&gt;!cscope --help&lt;/code&gt; 来查看，这里就不详细介绍了。&lt;/p&gt;
+
+&lt;p&gt;cscope的原理就介绍到这里，在 vim 中 cscope 的用法你可以在命令模式下输入 &lt;code&gt;cs&lt;/code&gt; 会列出 cscope 的帮助信息，常用的是 cscope find，用法如下：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;cs find c|d|e|f|g|i|s|t name&lt;/li&gt;
+
+&lt;li&gt;0 或 s 查找本 C 符号(可以跳过注释)&lt;/li&gt;
+
+&lt;li&gt;1 或 g 查找本定义&lt;/li&gt;
+
+&lt;li&gt;2 或 d 查找本函数调用的函数&lt;/li&gt;
+
+&lt;li&gt;3 或 c 查找调用本函数的函数&lt;/li&gt;
+
+&lt;li&gt;4 或 t 查找本字符串&lt;/li&gt;
+
+&lt;li&gt;6 或 e 查找本 egrep 模式&lt;/li&gt;
+
+&lt;li&gt;7 或 f 查找本文件&lt;/li&gt;
+
+&lt;li&gt;8 或 i 找包含本文件的文件&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;为了避免每次都输入这么多命令，可以在 vim 中建立映射：&lt;/p&gt;
+&lt;div class=&#39;highlight&#39;&gt;&lt;pre&gt;&lt;code class=&#39;vim&#39;&gt;nmap &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;C&lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;\&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;s&lt;/span&gt; :&lt;span class=&#39;k&#39;&gt;cs&lt;/span&gt; find &lt;span class=&#39;k&#39;&gt;s&lt;/span&gt; &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;C&lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;R&lt;span class=&#39;p&#39;&gt;&amp;gt;=&lt;/span&gt;expand&lt;span class=&#39;p&#39;&gt;(&lt;/span&gt;&lt;span class=&#39;s2&#39;&gt;&amp;quot;&amp;lt;cword&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;)&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;:&lt;span class=&#39;k&#39;&gt;copen&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;
+nmap &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;C&lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;\&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;g&lt;/span&gt; :&lt;span class=&#39;k&#39;&gt;cs&lt;/span&gt; find &lt;span class=&#39;k&#39;&gt;g&lt;/span&gt; &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;C&lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;R&lt;span class=&#39;p&#39;&gt;&amp;gt;=&lt;/span&gt;expand&lt;span class=&#39;p&#39;&gt;(&lt;/span&gt;&lt;span class=&#39;s2&#39;&gt;&amp;quot;&amp;lt;cword&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;)&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;
+nmap &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;C&lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;\&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;c&lt;/span&gt; :&lt;span class=&#39;k&#39;&gt;cs&lt;/span&gt; find &lt;span class=&#39;k&#39;&gt;c&lt;/span&gt; &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;C&lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;R&lt;span class=&#39;p&#39;&gt;&amp;gt;=&lt;/span&gt;expand&lt;span class=&#39;p&#39;&gt;(&lt;/span&gt;&lt;span class=&#39;s2&#39;&gt;&amp;quot;&amp;lt;cword&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;)&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;:&lt;span class=&#39;k&#39;&gt;copen&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;
+nmap &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;C&lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;\&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;t&lt;/span&gt; :&lt;span class=&#39;k&#39;&gt;cs&lt;/span&gt; find &lt;span class=&#39;k&#39;&gt;t&lt;/span&gt; &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;C&lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;R&lt;span class=&#39;p&#39;&gt;&amp;gt;=&lt;/span&gt;expand&lt;span class=&#39;p&#39;&gt;(&lt;/span&gt;&lt;span class=&#39;s2&#39;&gt;&amp;quot;&amp;lt;cword&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;)&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;:&lt;span class=&#39;k&#39;&gt;copen&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;
+nmap &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;C&lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;\&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;e&lt;/span&gt; :&lt;span class=&#39;k&#39;&gt;cs&lt;/span&gt; find &lt;span class=&#39;k&#39;&gt;e&lt;/span&gt; &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;C&lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;R&lt;span class=&#39;p&#39;&gt;&amp;gt;=&lt;/span&gt;expand&lt;span class=&#39;p&#39;&gt;(&lt;/span&gt;&lt;span class=&#39;s2&#39;&gt;&amp;quot;&amp;lt;cword&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;)&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;:&lt;span class=&#39;k&#39;&gt;copen&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;
+nmap &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;C&lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;\&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;f&lt;/span&gt; :&lt;span class=&#39;k&#39;&gt;cs&lt;/span&gt; find &lt;span class=&#39;k&#39;&gt;f&lt;/span&gt; &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;C&lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;R&lt;span class=&#39;p&#39;&gt;&amp;gt;=&lt;/span&gt;expand&lt;span class=&#39;p&#39;&gt;(&lt;/span&gt;&lt;span class=&#39;s2&#39;&gt;&amp;quot;&amp;lt;cfile&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;)&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;:&lt;span class=&#39;k&#39;&gt;copen&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;
+nmap &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;C&lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;\&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;i&lt;/span&gt; :&lt;span class=&#39;k&#39;&gt;cs&lt;/span&gt; find &lt;span class=&#39;k&#39;&gt;i&lt;/span&gt; ^&lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;C&lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;R&lt;span class=&#39;p&#39;&gt;&amp;gt;=&lt;/span&gt;expand&lt;span class=&#39;p&#39;&gt;(&lt;/span&gt;&lt;span class=&#39;s2&#39;&gt;&amp;quot;&amp;lt;cfile&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;)&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;$&lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;:&lt;span class=&#39;k&#39;&gt;copen&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;
+nmap &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;C&lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;\&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#39;k&#39;&gt;d&lt;/span&gt; :&lt;span class=&#39;k&#39;&gt;cs&lt;/span&gt; find &lt;span class=&#39;k&#39;&gt;d&lt;/span&gt; &lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;C&lt;span class=&#39;p&#39;&gt;-&lt;/span&gt;R&lt;span class=&#39;p&#39;&gt;&amp;gt;=&lt;/span&gt;expand&lt;span class=&#39;p&#39;&gt;(&lt;/span&gt;&lt;span class=&#39;s2&#39;&gt;&amp;quot;&amp;lt;cword&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;)&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;:&lt;span class=&#39;k&#39;&gt;copen&lt;/span&gt;&lt;span class=&#39;p&#39;&gt;&amp;lt;&lt;/span&gt;CR&lt;span class=&#39;p&#39;&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;或者直接下载 &lt;a href=&quot;http://cscope.sourceforge.net/cscope_maps.vim&quot;&gt;cscope_maps.vim&lt;/a&gt; 然后放入 &lt;code&gt;vimfiles\plugin&lt;/code&gt; 之下即可。&lt;/p&gt;
+
+&lt;h3 id=&quot;&quot;&gt;参考链接&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/bokee/article/details/6633193&quot;&gt;http://blog.csdn.net/bokee/article/details/6633193&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;www.vimer.cn&quot;&gt;www.vimer.cn&lt;/a&gt;&lt;/p&gt;</content>
+ </entry>
+ 
+ 
+</feed>

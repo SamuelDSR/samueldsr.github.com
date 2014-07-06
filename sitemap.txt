@@ -1,0 +1,11 @@
+
+http://samueldsr.github.com/about.html
+http://samueldsr.github.com/archive.html
+http://samueldsr.github.com/atom.xml
+http://samueldsr.github.com/categories.html
+http://samueldsr.github.com/index.html
+http://samueldsr.github.com/pages.html
+http://samueldsr.github.com/sitemap.txt
+http://samueldsr.github.com/tags.html
+
+http://samueldsr.github.com/blog/2014/04/27/windows-gvim-stepup

@@ -1,0 +1,424 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Windows下 gvim 开发环境配置</title>
+    <meta name="description" content="vim ">
+    <meta name="author" content="龙石河">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/abel/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/abel/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/abel/css/pygments.css?body=1" rel="stylesheet" type="text/css" media="all">    
+
+	<link rel="shortcut icon" href="assets/image/favicon.ico">
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+  	 <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="/atom.xml" />
+
+  	 
+  	 
+  </head>
+
+  <body>
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">Samuel's Blog</a>
+          <ul class="nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/about.html">About Me</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+          </ul>
+          <a href="/atom.xml"><img alt="rss feed" src="/assets/image/rss.png"></a>      
+        </div>
+        
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="content">
+        
+<div class="page-header">
+  	<h1>
+  		【<a href="/categories.html#vim-ref">vim</a>】 Windows下 gvim 开发环境配置 
+  		<small>-- 27 April 2014 </small>
+	</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <p><a href="http://www.vim.org">vim</a> 是一款在程序员之中非常流行的文本编辑器，和 <a href="http://www.gnu.org/software/emacs/">Emacs</a> 并列为类Unix系统上用户最喜欢的编辑器。vim 虽然小巧，但是功能却异常强大，各式丰富的插件可以实现代码高亮、自动补全、编译以及错误跳转等功能，丝毫不逊于 Visual Studio、Eclipse 等集成开发环境。用好 vim 能大大提高你的编码效率。</p>
+
+<p>vim 能工作在各种平台之上：windows 下有 gvim, Mac OS X下有 Macvim, 这里主要介绍 windows 下 gvim 等配置，从最基本的vim 开始，一步一步搭建一个包括 cscope, taglist, neocomplcache, snipmate 在内的功能强大的 vim 集成开发环境。</p>
+
+<h3 id="1gvim">1.安装gvim</h3>
+
+<p>可以到 vim 的<a href="http://www.vim.org/download.php">官方网站</a>选择对应 windows 系统的 gvim 安装程序或者可以直接点击<a href="ftp://ftp.vim.org/pub/vim/pc/gvim74.exe">这里</a>。对于64位系统，一个优化但没有经过严格测试的版本 (支持&gt;4GB 大小的文件编辑) 可以在<a href="http://vim-win3264.googlecode.com/files/vim73-x64.zip">这里</a>下载。</p>
+
+<p>下载完后，直接点击exe文件安装，安装目录随便，安装完后 vim 所在的目录的结构是这样的：</p>
+
+<ul>
+<li>  <code>vim</code></li>
+
+<li>    <code>vim73</code></li>
+
+<li>    <code>vimfiles</code></li>
+
+<li>    <code>_vimrc</code></li>
+</ul>
+
+<p>其中，<code>vim73</code> 存放 gvim 的主执行文件和一些必要的插件，<code>vimfiles</code> 里面存放我们想要安装的各种插件(推荐插件安装到 <code>vimfiles</code>, 这样方便与管理和卸载，下文中所有插件都是安装到此目录)，<code>_vimrc</code> 就是 vim 的配置文件所在，一些 vim 的基本设置，如文本编码，主题，快捷键都可以写在这里。</p>
+
+<h3 id="2vim">2.安装vim的中文帮助文档</h3>
+
+<p>vim 自带的用户手册是英文的，如果想看中文帮助，可以到这里下载 <a href="http://sourceforge.net/projects/vimcdoc/files/vimcdoc/1.8.0/">vimcdoc-1.8.0.tar.gz</a>, 之后将解压得到的 <code>doc</code> 文件夹复制到 <code>vimfiles/doc</code>, <code>vimcdoc.vim</code> 复制到 <code>vimfiles/plugin</code>, <code>help_cn.vim</code> 复制到 <code>vimfiles/syntax</code> (其余的文件不用管)。</p>
+
+<p>当然，你可以选择直接下载编译好的 <a href="http://sourceforge.net/projects/vimcdoc/files/win32-install/1.8.0/">vimcdoc-1.8.0-setup.exe</a> 然后一路点下去即可。</p>
+
+<p>最后，还需要在 <code>_vimrc</code> 里面讲帮助文档的语言设为中文，即添加下面一句话：</p>
+<div class='highlight'><pre><code class='vim'><span class='k'>set</span> <span class='nb'>helplang</span><span class='p'>=</span><span class='k'>cn</span>
+</code></pre></div>
+<h3 id="3vundle">3.安装Vundle来管理插件</h3>
+
+<p>vim 中有很多插件管理工具，比如说 <a href="http://www.vim.org/scripts/script.php?script_id=2332">pathogen</a>, 这里推荐用 <a href="http://www.vim.org/scripts/script.php?script_id=3458">Vundle</a>, vundle跟git整合，可以方便地用git来安装，更新，卸载 vim 中的插件，你只需要知道插件的名字即可，在使用 vundle 之前，确保你的电脑上以及安装了 git (推荐直接安装 <a href="https://windows.github.com/">github for windows</a>，安装好之后也顺便有了git )。</p>
+
+<p>打开 git shell, <code>cd</code> 到你的 <code>vimfiles</code> 下，然后输入以下代码：</p>
+<div class='highlight'><pre><code class='bash'><span class='nv'>$ </span>git clone https://github.com/gmarik/vundle.git ./bundle/vundle
+</code></pre></div>
+<p>这样就下载安装好了 vundle, vundle 管理的插件都安装在 <code>vimfiles/bundle</code> 之下, 并且能通过 git 来对插件进行更新，vundle 支持下面三种源：</p>
+
+<ul>
+<li><a href="http://vim-scripts.org/index.html">vim-scripts</a>，这种方式只需要知道插件的名字即可，例如插件 L9 只需要 Bundle ‘L9’ 即可</li>
+
+<li>github 中的 vim scripts 源，这种方式需要知道 github 上的 repositories 的名字，如 Bundle ‘Lokaltog/vim-easymotion’</li>
+
+<li>其他 git 源, 需要知道完整的 git 路径</li>
+</ul>
+
+<p>在用 vundle 安装管理插件之前，首先需要在 <code>_vimrc</code> 里面配置好想要 vundle 管理的 vim 插件，我的配置如下:</p>
+<div class='highlight'><pre><code class='vim'><span class='k'>set</span> <span class='nb'>nocompatible</span> 
+<span class='k'>filetype</span> off <span class='c'>&quot;必须的</span>
+<span class='c'>&quot;此处规定Vundle的路径</span>
+<span class='k'>set</span> <span class='nb'>rtp</span><span class='p'>+=</span>$VIM<span class='sr'>/vimfiles/</span>bundle<span class='sr'>/vundle/</span>
+<span class='c'>&quot;此处规定插件的安装路径</span>
+<span class='k'>call</span> vundle#rc<span class='p'>(</span><span class='s1'>&#39;$VIM/vimfiles/bundle/&#39;</span><span class='p'>)</span>
+
+<span class='c'>&quot;让 Vundle 管理 Vundle &quot;必须的</span>
+Bundle <span class='s1'>&#39;gmarik/vundle&#39;</span>
+
+<span class='c'>&quot;Syntax</span>
+Bundle <span class='s1'>&#39;asciidoc.vim&#39;</span>
+Bundle <span class='s1'>&#39;html5.vim&#39;</span>
+Bundle <span class='s1'>&#39;xml.vim&#39;</span>
+
+<span class='c'>&quot;color</span>
+Bundle <span class='s1'>&#39;flazz/vim-colorschemes&#39;</span>
+Bundle <span class='s1'>&#39;vibrantink&#39;</span>
+
+<span class='c'>&quot;Plugin</span>
+Bundle <span class='s1'>&#39;DoxygenToolkit.vim&#39;</span> 
+Bundle <span class='s1'>&#39;L9&#39;</span>
+Bundle <span class='s1'>&#39;FuzzyFinder&#39;</span>
+Bundle <span class='s1'>&#39;snipMate&#39;</span>
+Bundle <span class='s1'>&#39;Tagbar&#39;</span>
+Bundle <span class='s1'>&#39;taglist.vim&#39;</span>
+Bundle <span class='s1'>&#39;The-NERD-Commenter&#39;</span>
+Bundle <span class='s1'>&#39;Tabular&#39;</span>
+Bundle <span class='s1'>&#39;Chiel92/vim-autoformat&#39;</span>
+Bundle <span class='s1'>&#39;The-NERD-tree&#39;</span>
+Bundle <span class='s1'>&#39;Lokaltog/vim-easymotion&#39;</span>
+Bundle <span class='s1'>&#39;minibufexpl.vim&#39;</span>
+Bundle <span class='s1'>&#39;neocomplcache&#39;</span>
+Bundle <span class='s1'>&#39;LargeFile&#39;</span>
+Bundle <span class='s1'>&#39;LaTeX-Suite-aka-Vim-LaTeX&#39;</span>
+Bundle <span class='s1'>&#39;Auto-Pairs&#39;</span>
+Bundle <span class='s1'>&#39;Lokaltog/vim-powerline&#39;</span>
+Bundle <span class='s1'>&#39;ShowMarks&#39;</span>
+Bundle <span class='s1'>&#39;gregsexton/VimCalc&#39;</span>
+</code></pre></div>
+<p>然后打开 vim, 然后在命令模式下输入 <code>:BundleInstall</code>, vundle 就会自动安装上面相应的插件，Vundle 的插件都安装在 <code>vimfiles\bundle</code> 之下，并且能够很方便的通过 vundle 的命令进行管理：</p>
+
+<ul>
+<li><code>:BundleList</code>: 列出所安装的所有插件列表</li>
+
+<li><code>:BundleInstall</code>: 安装插件 <code>_vimrc</code> 里面配置的用 vundle 管理的所有插件</li>
+
+<li><code>:BundleClean</code>: 清除不必要的插件。在 vundle 里面，如果你想要卸载某插件，只需要在 <code>_vimrc</code> 文件里面删除该插件，然后调用 <code>:BundleClean</code> 即可卸载此插件</li>
+
+<li><code>BundleSearch</code>: 搜索相关插件，这是一个非常实用的命令，比如说你想安装 vim 里面的 Latex 插件，但是你不知道插件的详细名字，你可以通过 <code>:BundleSearch latex</code> 列出所有包含 <code>latex</code> 的插件，然后在左侧弹出的窗口里面定位到你想安装的插件，按 <code>i</code> 即可快速安装 (提醒，安装完之后一定要在 <code>_vimrc</code> 里面添加用 Bundle 管理该插件，不然你下次启动 vim 时该插件不会生效)</li>
+</ul>
+
+<p>你可以通过 <code>:help vundle</code> 来获取更为详细的 vundle 帮助。</p>
+
+<h3 id="4__ctags__cscope">4. 配置 ctags 和 cscope</h3>
+
+<p>大多数集成开发环境 (IDE) 都支持跳转到某个函数或变量的定义，这在编写或阅读源代码时非常有用。vim 里面也能通过 ctags 和 cscope 来完美地实现这一功能。</p>
+
+<h4 id="ctags">ctags</h4>
+
+<p>ctags 能通过生成相应的标记文件来实现在源文件中快速定位对象，在使用 ctags 实现跳转之前，首先需要生成相应的 tags文件。ctags中支持的 tag 对象有：</p>
+
+<ul>
+<li>用#define定义的宏</li>
+
+<li>枚举型变量的值</li>
+
+<li>函数的定义、原型和声明</li>
+
+<li>名字空间（namespace）</li>
+
+<li>类型定义（typedefs）</li>
+
+<li>变量（包括定义和声明）</li>
+
+<li>类（class）、结构（struct）、枚举类型（enum）和联合（union）</li>
+
+<li>类、结构和联合中成员变量或函数</li>
+</ul>
+
+<p>首先需要下载安装ctags, 下载 <a href="http://prdownloads.sourceforge.net/ctags/ctags58.zip">ctags58.zip</a>, 解压后将ctags.exe拷贝至<code>vim/vim73</code> 下面，之后就可以下载 vim 中使用ctags了。</p>
+
+<p>使用ctags建立tags文件的语句如下：</p>
+<div class='highlight'><pre><code class='bash'>ctags -R –c++-kinds<span class='o'>=</span>+px –fields<span class='o'>=</span>+iaS –extra<span class='o'>=</span>+q . 
+</code></pre></div>
+<p>每个参数的解释如下：</p>
+
+<ul>
+<li>-R: ctags循环生成子目录的tags</li>
+
+<li>–c++-kinds=+px: ctags记录c++文件中的函数声明和各种外部和前向声明</li>
+
+<li>–fields=+iaS: ctags 要求描述的信息，其中i表示如果有继承，则标识出父类；a 表示如果元素是类成员的话，要标明其调用权限(即是public还是private); S 表示如果是函数，则标识函数的signature。</li>
+
+<li>–extra=+q: 强制要求ctags做如下操作—如果某个语法元素是类的一个成员，ctags默认会给其记录一行，可以要求ctags对同一个语法元素再记一行，这样可以保证在VIM中多个同名函数可以通过路径不同来区分。</li>
+</ul>
+
+<p>最方便的是在 vim 中建立ctags 的命令的快捷键，可以设定为 <code>&lt;leader&gt;bt</code> (build tags)</p>
+<div class='highlight'><pre><code class='vim'>nmap <span class='p'>&lt;</span><span class='k'>silent</span><span class='p'>&gt;</span> <span class='p'>&lt;</span>leader<span class='p'>&gt;</span><span class='nb'>bt</span> :<span class='p'>!</span>ctags <span class='p'>-</span>R <span class='p'>--</span><span class='k'>c</span><span class='p'>++-</span>kinds<span class='p'>=+</span><span class='k'>p</span> <span class='p'>--</span>fields<span class='p'>=+</span>iaS <span class='p'>--</span>extra<span class='p'>=+</span><span class='k'>q</span> .<span class='p'>&lt;</span>CR<span class='p'>&gt;</span>
+</code></pre></div>
+<p>习惯按功能键的话可以绑定到 <code>&lt;F12&gt;</code> 键</p>
+<div class='highlight'><pre><code class='vim'>nmap <span class='p'>&lt;</span>F12<span class='p'>&gt;</span> :<span class='p'>!</span>ctags <span class='p'>-</span>R <span class='p'>--</span><span class='k'>c</span><span class='p'>++-</span>kinds<span class='p'>=+</span><span class='k'>p</span> <span class='p'>--</span>fields<span class='p'>=+</span>iaS <span class='p'>--</span>extra<span class='p'>=+</span><span class='k'>q</span> .<span class='p'>&lt;</span>CR<span class='p'>&gt;</span>
+</code></pre></div>
+<p>建立好tags之后，在对应源代码你想跳转的地方按<code>Ctrl+]</code>键即可。 许多其他插件，如显示源代码结构和函数列表 taglist, 自动补全插件 omincppcomplete, neocomplcache 等都依赖ctags生成的tags文件。 另外, tags 文件必须在 vim 运行的当前目录才能正确实现跳转，如果想添加其他路径的tags文件，可以这样:</p>
+<div class='highlight'><pre><code class='vim'><span class='k'>set</span> <span class='k'>tags</span><span class='p'>+=</span><span class='k'>tags</span>文件路径
+</code></pre></div>
+<h4 id="cscope">cscope</h4>
+
+<p>cscope 是另外一种用来生成tags文件的工具，cscope主要用来协助浏览C/C++语言，功能方面要强于ctags，不仅支持变量/函数的定义查询，还记录了函数的调用处查询等功能，所以在安装了ctags之后还可以继续安装cscope vim 默认是支持ctags生成的tags文件的，但是对于cscope而言，windows系统下的gvim可能支持不是太好， 这时你需要在vim中输入<code>:version</code>来查看自己的vim是否支持cscope, 如果有<code>+cscope</code>选项的话就没有问题，如果是<code>-cscope</code>, 你需要重新安装一个支持cscope的版本或者从 vim 源代码重新编译，加上 <code>-enable-cscope</code> 选项。 下载 windows版本的 <a href="http://sourceforge.net/projects/mslk/files/Cscope/cscope-15.7/cscope-15.7.zip/download">cscope.exe</a>, 将得到的zip文件解压后全部放入<code>vim/vim73</code>下面。这样就可以使用 cscope 来生成程序数据库文件了。 使用 cscope 之前需要利用 cscope 命令生成相应的程序数据库也就是 tags 文件，下面是一个方便生成数据库文件 vim 函数，将之添加到 <code>_vimrc</code> 文件中。</p>
+<div class='highlight'><pre><code class='vim'><span class='k'>function</span> Do_CsTag<span class='p'>()</span>
+    <span class='k'>if</span><span class='p'>(</span>executable<span class='p'>(</span><span class='s2'>&quot;cscope&quot;</span><span class='p'>)</span> &amp;&amp; has<span class='p'>(</span><span class='s2'>&quot;cscope&quot;</span><span class='p'>)</span> <span class='p'>)</span>
+        <span class='k'>if</span><span class='p'>(</span>has<span class='p'>(</span><span class='s1'>&#39;win32&#39;</span><span class='p'>))</span>
+            <span class='k'>silent</span><span class='p'>!</span> execute <span class='s2'>&quot;!dir /b *.c,*.cpp,*.h,*.java,*.cs &gt;&gt; cscope.files&quot;</span>
+        <span class='k'>else</span>
+            <span class='k'>silent</span><span class='p'>!</span> execute <span class='s2'>&quot;!find . -name &quot;</span>*.<span class='k'>h</span><span class='s2'>&quot; -o -name &quot;</span>*.<span class='k'>c</span><span class='s2'>&quot; -o -name &quot;</span>*.cpp<span class='s2'>&quot; -o -name &quot;</span>*.<span class='k'>m</span><span class='s2'>&quot; -o -name &quot;</span>*.<span class='nb'>mm</span><span class='s2'>&quot; -o -name &quot;</span>*.java<span class='s2'>&quot; -o -name &quot;</span>*.<span class='k'>py</span><span class='s2'>&quot; &gt; cscope.files&quot;</span>
+        <span class='k'>endif</span>
+        <span class='k'>silent</span><span class='p'>!</span> execute <span class='s2'>&quot;!cscope -b&quot;</span>
+        <span class='k'>if</span> filereadable<span class='p'>(</span><span class='s2'>&quot;cscope.out&quot;</span><span class='p'>)</span>
+            execute <span class='s2'>&quot;cs add cscope.out&quot;</span>
+        <span class='k'>endif</span>
+    <span class='k'>endif</span>
+<span class='k'>endf</span>
+</code></pre></div>
+<p>调用这个函数就可以用 cscope 生成程序数据库，然后 vim 就可以利用它来进行跳转了。 函数的代码的详细解释见 <a href="http://www.vimer.cn/2009/10/%E5%9C%A8vimgvim%E4%B8%AD%E4%BD%BF%E7%94%A8cscope.html">http://www.vimer.cn/2009/10/%E5%9C%A8vimgvim%E4%B8%AD%E4%BD%BF%E7%94%A8cscope.html</a>. 当然最方便的是在 vim 中映射这个函数，代码如下：</p>
+<div class='highlight'><pre><code class='vim'>nmap <span class='p'>&lt;</span>leader<span class='p'>&gt;</span>bct :<span class='k'>call</span> Do_CsTag<span class='p'>()&lt;</span>CR<span class='p'>&gt;</span>
+</code></pre></div>
+<p>cscope的常用生成数据库选项可以用在 vim 中命令模式下输入 <code>!cscope --help</code> 来查看，这里就不详细介绍了。</p>
+
+<p>cscope的原理就介绍到这里，在 vim 中 cscope 的用法你可以在命令模式下输入 <code>cs</code> 会列出 cscope 的帮助信息，常用的是 cscope find，用法如下：</p>
+
+<ul>
+<li>cs find c|d|e|f|g|i|s|t name</li>
+
+<li>0 或 s 查找本 C 符号(可以跳过注释)</li>
+
+<li>1 或 g 查找本定义</li>
+
+<li>2 或 d 查找本函数调用的函数</li>
+
+<li>3 或 c 查找调用本函数的函数</li>
+
+<li>4 或 t 查找本字符串</li>
+
+<li>6 或 e 查找本 egrep 模式</li>
+
+<li>7 或 f 查找本文件</li>
+
+<li>8 或 i 找包含本文件的文件</li>
+</ul>
+
+<p>为了避免每次都输入这么多命令，可以在 vim 中建立映射：</p>
+<div class='highlight'><pre><code class='vim'>nmap <span class='p'>&lt;</span>C<span class='p'>-</span>\<span class='p'>&gt;</span><span class='k'>s</span> :<span class='k'>cs</span> find <span class='k'>s</span> <span class='p'>&lt;</span>C<span class='p'>-</span>R<span class='p'>&gt;=</span>expand<span class='p'>(</span><span class='s2'>&quot;&lt;cword&gt;&quot;</span><span class='p'>)&lt;</span>CR<span class='p'>&gt;&lt;</span>CR<span class='p'>&gt;</span>:<span class='k'>copen</span><span class='p'>&lt;</span>CR<span class='p'>&gt;</span>
+nmap <span class='p'>&lt;</span>C<span class='p'>-</span>\<span class='p'>&gt;</span><span class='k'>g</span> :<span class='k'>cs</span> find <span class='k'>g</span> <span class='p'>&lt;</span>C<span class='p'>-</span>R<span class='p'>&gt;=</span>expand<span class='p'>(</span><span class='s2'>&quot;&lt;cword&gt;&quot;</span><span class='p'>)&lt;</span>CR<span class='p'>&gt;&lt;</span>CR<span class='p'>&gt;</span>
+nmap <span class='p'>&lt;</span>C<span class='p'>-</span>\<span class='p'>&gt;</span><span class='k'>c</span> :<span class='k'>cs</span> find <span class='k'>c</span> <span class='p'>&lt;</span>C<span class='p'>-</span>R<span class='p'>&gt;=</span>expand<span class='p'>(</span><span class='s2'>&quot;&lt;cword&gt;&quot;</span><span class='p'>)&lt;</span>CR<span class='p'>&gt;&lt;</span>CR<span class='p'>&gt;</span>:<span class='k'>copen</span><span class='p'>&lt;</span>CR<span class='p'>&gt;</span>
+nmap <span class='p'>&lt;</span>C<span class='p'>-</span>\<span class='p'>&gt;</span><span class='k'>t</span> :<span class='k'>cs</span> find <span class='k'>t</span> <span class='p'>&lt;</span>C<span class='p'>-</span>R<span class='p'>&gt;=</span>expand<span class='p'>(</span><span class='s2'>&quot;&lt;cword&gt;&quot;</span><span class='p'>)&lt;</span>CR<span class='p'>&gt;&lt;</span>CR<span class='p'>&gt;</span>:<span class='k'>copen</span><span class='p'>&lt;</span>CR<span class='p'>&gt;</span>
+nmap <span class='p'>&lt;</span>C<span class='p'>-</span>\<span class='p'>&gt;</span><span class='k'>e</span> :<span class='k'>cs</span> find <span class='k'>e</span> <span class='p'>&lt;</span>C<span class='p'>-</span>R<span class='p'>&gt;=</span>expand<span class='p'>(</span><span class='s2'>&quot;&lt;cword&gt;&quot;</span><span class='p'>)&lt;</span>CR<span class='p'>&gt;&lt;</span>CR<span class='p'>&gt;</span>:<span class='k'>copen</span><span class='p'>&lt;</span>CR<span class='p'>&gt;</span>
+nmap <span class='p'>&lt;</span>C<span class='p'>-</span>\<span class='p'>&gt;</span><span class='k'>f</span> :<span class='k'>cs</span> find <span class='k'>f</span> <span class='p'>&lt;</span>C<span class='p'>-</span>R<span class='p'>&gt;=</span>expand<span class='p'>(</span><span class='s2'>&quot;&lt;cfile&gt;&quot;</span><span class='p'>)&lt;</span>CR<span class='p'>&gt;&lt;</span>CR<span class='p'>&gt;</span>:<span class='k'>copen</span><span class='p'>&lt;</span>CR<span class='p'>&gt;</span>
+nmap <span class='p'>&lt;</span>C<span class='p'>-</span>\<span class='p'>&gt;</span><span class='k'>i</span> :<span class='k'>cs</span> find <span class='k'>i</span> ^<span class='p'>&lt;</span>C<span class='p'>-</span>R<span class='p'>&gt;=</span>expand<span class='p'>(</span><span class='s2'>&quot;&lt;cfile&gt;&quot;</span><span class='p'>)&lt;</span>CR<span class='p'>&gt;</span>$<span class='p'>&lt;</span>CR<span class='p'>&gt;</span>:<span class='k'>copen</span><span class='p'>&lt;</span>CR<span class='p'>&gt;</span>
+nmap <span class='p'>&lt;</span>C<span class='p'>-</span>\<span class='p'>&gt;</span><span class='k'>d</span> :<span class='k'>cs</span> find <span class='k'>d</span> <span class='p'>&lt;</span>C<span class='p'>-</span>R<span class='p'>&gt;=</span>expand<span class='p'>(</span><span class='s2'>&quot;&lt;cword&gt;&quot;</span><span class='p'>)&lt;</span>CR<span class='p'>&gt;&lt;</span>CR<span class='p'>&gt;</span>:<span class='k'>copen</span><span class='p'>&lt;</span>CR<span class='p'>&gt;</span>
+</code></pre></div>
+<p>或者直接下载 <a href="http://cscope.sourceforge.net/cscope_maps.vim">cscope_maps.vim</a> 然后放入 <code>vimfiles\plugin</code> 之下即可。</p>
+
+<h3 id="">参考链接</h3>
+
+<p><a href="http://blog.csdn.net/bokee/article/details/6633193">http://blog.csdn.net/bokee/article/details/6633193</a></p>
+
+<p><a href="www.vimer.cn">www.vimer.cn</a></p>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev disabled"><a>&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next disabled"><a>Next &rarr;</a>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'zhenyublog'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+  
+  <div class="span4">
+    
+  
+    <div class="sidebar-title">标签</div>
+    <ul class="tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#vim插件-ref">vim插件 <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  
+    <hr>
+  
+  	<div class="sidebar-title">相关文章</div>
+    <ul>
+    
+    </ul>
+    <hr>
+    <div class="sidebar-title">分享到</div><br>
+    <!-- JiaThis Button BEGIN -->
+    <div class="jiathis_style">
+    	<a class="jiathis_button_tools_1"></a>
+	  	<a class="jiathis_button_tools_2"></a><br>
+  		<a class="jiathis_button_tools_3"></a>
+  	    <a class="jiathis_button_tools_4"></a><br>
+	    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	    <a class="jiathis_counter_style"></a>
+    </div>
+    <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1334916632736926" charset="utf-8"></script>
+    <!-- JiaThis Button END -->
+  
+  </div>
+</div>
+
+
+      </div>
+
+      <footer>
+        <p>&copy; 龙石河 2012 - 版权所有，转载请注明出处</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>
+
